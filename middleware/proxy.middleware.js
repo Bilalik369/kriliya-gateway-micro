@@ -1,5 +1,7 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 const services = {
     auth: {
@@ -10,8 +12,7 @@ const services = {
         target: process.env.ITEM_SERVICE_URL,
         path: "/api/items"
     }
-}
-
+};
 
 export const createServiceProxy = (serviceName) => {
     const service = services[serviceName];
@@ -20,7 +21,7 @@ export const createServiceProxy = (serviceName) => {
     return createProxyMiddleware({
         target: service.target,
         changeOrigin: true,
-        pathRewrite: { [`^${service.path}`]: "" },
+        pathRewrite: { [`^${service.path}`]: service.path },
         onError: (err, req, res) => {
             console.error(`[Gateway] Error proxying to ${serviceName}:`, err.message);
             res.status(503).json({
@@ -29,4 +30,4 @@ export const createServiceProxy = (serviceName) => {
             });
         }
     });
-}
+};
