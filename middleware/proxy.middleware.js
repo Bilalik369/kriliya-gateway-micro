@@ -15,19 +15,26 @@ const services = {
 };
 
 export const createServiceProxy = (serviceName) => {
-    const service = services[serviceName];
-    if (!service) throw new Error(`Service '${serviceName}' not found`);
+  const service = services[serviceName];
+  if (!service) throw new Error(`Service '${serviceName}' not found`);
 
-    return createProxyMiddleware({
-        target: service.target,
-        changeOrigin: true,
-        pathRewrite: { [`^${service.path}`]: service.path },
-        onError: (err, req, res) => {
-            console.error(`[Gateway] Error proxying to ${serviceName}:`, err.message);
-            res.status(503).json({
-                error: `${serviceName} service unavailable`,
-                message: "Please try again later",
-            });
-        }
+  return createProxyMiddleware({
+  target: service.target,
+  changeOrigin: true,
+  pathRewrite: { [`^${service.path}`]: "" },
+  onProxyReq: (proxyReq, req, res) => {
+    
+    if (req.headers.authorization) {
+      proxyReq.setHeader("Authorization", req.headers.authorization);
+    }
+  },
+  onError: (err, req, res) => {
+    console.error(`[Gateway] Error proxying to ${serviceName}:`, err.message);
+    res.status(503).json({
+      error: `${serviceName} service unavailable`,
+      message: "Please try again later",
     });
+  },
+});
+
 };
