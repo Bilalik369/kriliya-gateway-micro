@@ -1,17 +1,14 @@
-import express from "express"
-import {createServiceProxy} from "../middleware/proxy.middleware.js"
-import {verifyToken ,checkRole } from "../middleware/auth.middleware.js"
-
-
-
+import express from "express";
+import { createServiceProxy } from "../middleware/proxy.middleware.js";
+import { verifyToken, checkRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.use("/api/auth" , createServiceProxy("auth"))
+
+router.use("/api/auth", createServiceProxy("auth"));
 
 
-router.use("/api/items" ,verifyToken , createServiceProxy("items"))
+router.use("/api/items", verifyToken, createServiceProxy("items"));
+router.use("/api/booking", createServiceProxy("booking"));
 
-
-
-export default router
+export default router;
