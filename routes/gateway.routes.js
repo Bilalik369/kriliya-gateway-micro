@@ -11,4 +11,7 @@ router.use("/api/auth", createServiceProxy("auth"));
 router.use("/api/items", verifyToken, createServiceProxy("items"));
 router.use("/api/booking", createServiceProxy("booking"));
 
+router.use("/api/notifications", createServiceProxy("notification"));
+
+
 export default router;
