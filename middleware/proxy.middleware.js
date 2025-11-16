@@ -7,7 +7,8 @@ const services = {
   auth: process.env.AUTH_SERVICE_URL, 
   items: process.env.ITEM_SERVICE_URL,
   booking: process.env.BOOKING_SERVICE_URL,
-   notification: process.env.NOTIFICATION_SERVICE_URL,
+  notification: process.env.NOTIFICATION_SERVICE_URL,
+  review : process.env.REVIEW_SERVICE_URL,
 };
 
 export const createServiceProxy = (serviceName) => {
