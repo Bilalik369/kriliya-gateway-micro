@@ -12,7 +12,9 @@ app.use(cors({
    origin: "http://localhost:8081",
   credentials: true
 }));
-app.use(express.json());
+
+/* Do not use express.json() on the gateway: it consumes the request body before
+   the proxy can forward it (breaks auth JSON and items multipart). Each service parses its own body. */
 
 const PORT = process.env.PORT
 

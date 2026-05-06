@@ -19,6 +19,8 @@ export const createServiceProxy = (serviceName) => {
   }
 
   return proxy(serviceUrl, {
+    parseReqBody: false,
+
     proxyReqPathResolver: (req) => {
      
       const newPath = req.originalUrl || req.url;
