@@ -9,8 +9,8 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-   origin: "http://localhost:8081",
-  credentials: true
+  origin: "*",
+  credentials: false
 }));
 
 /* Do not use express.json() on the gateway: it consumes the request body before
